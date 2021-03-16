@@ -24,6 +24,7 @@
             IntPtr sysMenu = GetSystemMenu(handle, false);
 
             Console.SetWindowSize(this.OptionsBuilder.Width, this.OptionsBuilder.Height);
+            Console.CursorVisible = this.OptionsBuilder.IsCursorVisible;
 
             if (handle != IntPtr.Zero)
             {

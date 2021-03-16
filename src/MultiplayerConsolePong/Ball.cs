@@ -26,12 +26,6 @@
 
         public bool IsMovingUp { get; set; }
 
-        public void ChangeMovingDirection()
-        {
-            this.IsMovingLeft = !this.IsMovingLeft;
-            this.IsMovingUp = !this.IsMovingUp;
-        }
-
         public void Move()
         {
             if (this.IsMovingLeft)
