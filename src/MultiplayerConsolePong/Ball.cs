@@ -30,9 +30,9 @@
         {
             this.X += this.IsMovingLeft ? -this.SpeedX : this.SpeedX;
 
-            if (this.X <= 1)
+            if (this.X <= 2)
             {
-                this.X = 1;
+                this.X = 2;
             }
             if (this.X >= GlobalConstants.GridWidth - 2)
             {

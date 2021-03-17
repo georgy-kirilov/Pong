@@ -23,8 +23,9 @@ namespace MultiplayerConsolePong
         {
             for (int row = this.Y; row <= this.Y + this.Height; row++)
             {
-                Console.SetCursorPosition(this.X, row);
-                Console.Write("H");
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                ConsoleManager.WriteAt(this.X, row, " ");
+                Console.BackgroundColor = ConsoleColor.Black;
             }
         }
 

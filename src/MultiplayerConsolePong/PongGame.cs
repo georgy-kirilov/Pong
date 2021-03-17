@@ -31,7 +31,7 @@
                                 isMovingLeft: true,
                                 isMovingUp: false);
 
-            this.leftPaddle = new Paddle(x: 0,
+            this.leftPaddle = new Paddle(x: 1,
                                         y: GlobalConstants.InitialPaddleY,
                                         height: GlobalConstants.PaddleHeight);
 
@@ -104,7 +104,8 @@
 
                 this.ball.Draw();
                 string scoreAsText = $"{this.leftPaddle.Score} : {this.rightPaddle.Score}";
-                ConsoleManager.WriteAt(GlobalConstants.GridWidth / 2 - scoreAsText.Length / 2, GlobalConstants.GridHeight / 15, scoreAsText);
+                ConsoleManager.WriteAt(GlobalConstants.GridWidth / 2 - scoreAsText.Length / 2, 1, scoreAsText);
+                this.DrawGridMarking();
                 Thread.Sleep(30);
                 this.ball.Clear();
             }
@@ -117,6 +118,17 @@
             while (this.leftPaddle.Score < this.RoundsToWinCount && this.rightPaddle.Score < this.RoundsToWinCount)
             {
                 this.NewRound();
+            }
+        }
+
+        private void DrawGridMarking()
+        {
+            int column = GlobalConstants.GridWidth / 2;
+            for (int row = 3; row < GlobalConstants.GridHeight; row += 3)
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+                ConsoleManager.WriteAt(column, row, " ");
+                Console.BackgroundColor = ConsoleColor.Black;
             }
         }
     }
