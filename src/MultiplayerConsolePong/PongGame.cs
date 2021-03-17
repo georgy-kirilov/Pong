@@ -9,23 +9,37 @@
         private Paddle leftPaddle;
         private Paddle rightPaddle;
         private int sleepTimeMiliseconds;
+        public int RoundsToWinCount { get; }
 
-        public PongGame(Ball ball, Paddle leftPaddle, Paddle rightPaddle, int framesPerSecond = 30)
+        public PongGame(Ball ball, Paddle leftPaddle, Paddle rightPaddle, int roundsToWinCount = 5, int framesPerSecond = 30)
         {
             this.ball = ball;
             this.leftPaddle = leftPaddle;
             this.rightPaddle = rightPaddle;
             this.sleepTimeMiliseconds = 1000 / framesPerSecond;
+            this.RoundsToWinCount = roundsToWinCount;
         }
 
         public void NewRound()
         {
-            
-        }
+            bool gameOver = false;
 
-        public void Start()
-        {
-            while (true)
+            this.ball = new Ball(x: GlobalConstants.GridWidth / 2,
+                                y: GlobalConstants.GridHeight / 2,
+                                speedX: 2,
+                                speedY: 1,
+                                isMovingLeft: true,
+                                isMovingUp: false);
+
+            this.leftPaddle = new Paddle(x: 0,
+                                        y: GlobalConstants.InitialPaddleY,
+                                        height: GlobalConstants.PaddleHeight);
+
+            this.rightPaddle = new Paddle(x: GlobalConstants.GridWidth - 1,
+                                         y: GlobalConstants.InitialPaddleY,
+                                         height: GlobalConstants.PaddleHeight);
+
+            while (!gameOver)
             {
                 if (Console.KeyAvailable)
                 {
@@ -45,8 +59,7 @@
                     }
                     else if (key == ConsoleKey.W)
                     {
-                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-                        Console.Write(" ");
+                        ConsoleManager.ClearAtCursorPosition(-1);
                         this.leftPaddle.Clear();
                         this.leftPaddle.MoveUp();
                         this.leftPaddle.Print();
@@ -54,8 +67,7 @@
                     }
                     else if (key == ConsoleKey.S)
                     {
-                        Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-                        Console.Write(" ");
+                        ConsoleManager.ClearAtCursorPosition(-1);
                         this.leftPaddle.Clear();
                         this.leftPaddle.MoveDown();
                         this.leftPaddle.Print();
@@ -64,68 +76,47 @@
 
                 this.ball.Move();
 
-                if (this.HasBallGoneOufOfGrid(GridSide.Top) || this.HasBallGoneOufOfGrid(GridSide.Bottom))
+                if (this.ball.IsMovingLeft && this.ball.X == this.leftPaddle.X + 1)
                 {
-                    this.ball.IsMovingUp = !this.ball.IsMovingUp;
+                    if (this.ball.Y >= this.leftPaddle.Y && this.ball.Y <= this.leftPaddle.Y + this.leftPaddle.Height)
+                    {
+                        this.ball.IsMovingLeft = false;
+                    }
+                    else
+                    {
+                        this.rightPaddle.Score++;
+                        gameOver = true;
+                    }
                 }
 
-                this.ManageBallCollisions();
+                if (!this.ball.IsMovingLeft && this.ball.X == this.rightPaddle.X - 1)
+                {
+                    if (this.ball.Y >= this.rightPaddle.Y && this.ball.Y <= this.rightPaddle.Y + this.rightPaddle.Height)
+                    {
+                        this.ball.IsMovingLeft = true;
+                    }
+                    else
+                    {
+                        this.leftPaddle.Score++;
+                        gameOver = true;
+                    }
+                }
 
-                this.ball.Print();
-                Thread.Sleep(this.sleepTimeMiliseconds);
-                ball.Clear();
+                this.ball.Draw();
+                string scoreAsText = $"{this.leftPaddle.Score} : {this.rightPaddle.Score}";
+                ConsoleManager.WriteAt(GlobalConstants.GridWidth / 2 - scoreAsText.Length / 2, GlobalConstants.GridHeight / 15, scoreAsText);
+                Thread.Sleep(30);
+                this.ball.Clear();
             }
+
+            Console.Clear();
         }
 
-        private void ManageBallCollisions()
+        public void Start()
         {
-            bool hasBallHitRightPaddle = this.ball.Y >= this.rightPaddle.Y && this.ball.Y <= this.rightPaddle.Y + this.rightPaddle.Height;
-
-            if (this.ball.X == this.rightPaddle.X - 1)
+            while (this.leftPaddle.Score < this.RoundsToWinCount && this.rightPaddle.Score < this.RoundsToWinCount)
             {
-                if (hasBallHitRightPaddle)
-                {
-                    this.ball.IsMovingLeft = true;
-                }
-                else
-                {
-                    this.leftPaddle.Score++;
-                }
-            }
-
-            bool hasBallHitLeftPaddle = this.ball.Y >= this.leftPaddle.Y && this.ball.Y <= this.leftPaddle.Y + this.leftPaddle.Height;
-
-            if (this.ball.X == this.leftPaddle.X + 1)
-            {
-                if (hasBallHitLeftPaddle)
-                {
-                    this.ball.IsMovingLeft = false;
-                }
-                else
-                {
-                    this.rightPaddle.Score++;
-                }
-            }
-        }
-
-        private bool HasBallGoneOufOfGrid(GridSide gridSide)
-        {
-            switch (gridSide)
-            {
-                case GridSide.Top:
-                    return this.ball.Y <= 0;
-
-                case GridSide.Right:
-                    return this.ball.X >= GlobalConstants.GridWidth - 2;
-
-                case GridSide.Bottom:
-                    return this.ball.Y >= GlobalConstants.GridHeight - 1;
-
-                case GridSide.Left:
-                    return this.ball.X < 1;
-
-                default:
-                    throw new NotSupportedException("Unsupported grid side");
+                this.NewRound();
             }
         }
     }

@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class Ball : IPrintable
+    public class Ball
     {
         public Ball(int x, int y, int speedX, int speedY, bool isMovingLeft = true, bool isMovingUp = true)
         {
@@ -14,9 +14,9 @@
             this.IsMovingUp = isMovingUp;
         }
 
-        public int X { get; private set; }
+        public int X { get; set; }
 
-        public int Y { get; private set; }
+        public int Y { get; set; }
 
         public int SpeedX { get; private set; }
 
@@ -28,51 +28,39 @@
 
         public void Move()
         {
-            if (this.IsMovingLeft)
+            this.X += this.IsMovingLeft ? -this.SpeedX : this.SpeedX;
+
+            if (this.X <= 1)
             {
-                if (this.X - this.SpeedX < 1)
-                {
-                    this.X -= this.X - 1;
-                    this.IsMovingLeft = false;
-                }
-                else
-                {
-                    this.X -= this.SpeedX;
-                }
+                this.X = 1;
             }
-            else
+            if (this.X >= GlobalConstants.GridWidth - 2)
             {
-                if (this.X + this.SpeedX >= GlobalConstants.GridWidth - 1)
-                {
-                    this.X += GlobalConstants.GridWidth - this.X - 2;
-                    this.IsMovingLeft = true;
-                }
-                else
-                {
-                    this.X += this.SpeedX;
-                }
+                this.X = GlobalConstants.GridWidth - 2;
             }
 
-            if (this.IsMovingUp)
+            this.Y += this.IsMovingUp ? -this.SpeedY : this.SpeedY;
+
+            if (this.Y <= 0)
             {
-                this.Y -= this.SpeedY;
+                this.Y = 0;
+                this.IsMovingUp = false;
             }
-            else
+            if (this.Y >= GlobalConstants.GridHeight - 1)
             {
-                this.Y += this.SpeedY;
+                this.Y = GlobalConstants.GridHeight - 1;
+                this.IsMovingUp = true;
             }
         }
 
-        public void Print()
+        public void Draw()
         {
-            Console.SetCursorPosition(this.X, this.Y);
-            Console.Write("@");
+            ConsoleManager.WriteAt(this.X, this.Y, "@");
         }
 
         public void Clear()
         {
-            Console.SetCursorPosition(this.X, this.Y);
-            Console.Write(" ");
+            ConsoleManager.ClearAt(this.X, this.Y);
         }
     }
 }
