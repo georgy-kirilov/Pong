@@ -1,57 +1,64 @@
-﻿using System;
-
-namespace MultiplayerConsolePong
+﻿namespace MultiplayerConsolePong
 {
-    public class Paddle : IPrintable
+    public class Paddle
     {
-        public Paddle(int x, int y, int height)
+        private const int DefaultVerticalSpeed = 2;
+
+        public Paddle(int x, int y = GlobalConstants.PaddleY, int height = GlobalConstants.PaddleHeight)
         {
+            this.X = x;
+            this.TopY = y;
             this.Height = height;
             this.Score = 0;
-            this.X = x;
-            this.Y = y;
-            this.Offset = 2;
+            this.VerticalSpeed = DefaultVerticalSpeed;
         }
 
         public int Height { get; set; }
 
         public int X { get; set; }
 
-        public int Y { get; set; }
+        public int TopY { get; set; }
+
+        public int BottomY => this.TopY + this.Height;
+
+        public int Score { get; set; }
+
+        public int VerticalSpeed { get; set; }
 
         public void Print()
         {
-            for (int row = this.Y; row <= this.Y + this.Height; row++)
+            for (int row = this.TopY; row <= this.BottomY; row++)
             {
-                Console.BackgroundColor = ConsoleColor.DarkYellow;
-                ConsoleManager.WriteAt(this.X, row, " ");
-                Console.BackgroundColor = ConsoleColor.Black;
+                ConsoleManager.WriteAt(this.X, row, GlobalConstants.PaddleSymbol, GlobalConstants.PaddleColor);
             }
         }
 
         public void Clear()
         {
-            for (int row = this.Y; row <= this.Y + this.Height; row++)
+            for (int row = this.TopY; row <= this.BottomY; row++)
             {
-                Console.SetCursorPosition(this.X, row);
-                Console.Write(" ");
+                ConsoleManager.ClearAt(this.X, row);
             }
         }
 
-        public int Score { get; set; }
-
-        public int Offset { get; set; }
-
         public void MoveUp()
         {
-            int offset = this.Y - this.Offset < 0 ? this.Y : this.Offset;
-            this.Y -= offset;
+            this.TopY -= this.VerticalSpeed;
+
+            if (this.TopY < 0)
+            {
+                this.TopY = 0;
+            }
         }
 
         public void MoveDown()
         {
-            int offset = this.Y + this.Height + this.Offset >= GlobalConstants.GridHeight ? GlobalConstants.GridHeight - (this.Y + this.Height) - 1 : this.Offset;
-            this.Y += offset;
+            this.TopY += this.VerticalSpeed;
+
+            if (this.BottomY >= GlobalConstants.GridHeight)
+            {
+                this.TopY = GlobalConstants.GridHeight - this.Height - 1;
+            }
         }
     }
 }

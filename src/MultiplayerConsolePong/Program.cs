@@ -17,21 +17,10 @@
                     })
                 .Build();
 
-            var ball = new Ball(x: GlobalConstants.GridWidth / 2,
-                                y: GlobalConstants.GridHeight / 2,
-                                speedX: 2,
-                                speedY: 1,
-                                isMovingLeft: true,
-                                isMovingUp: false);
-
-            var leftPaddle = new Paddle(x: 0,
-                                        y: GlobalConstants.InitialPaddleY,
-                                        height: GlobalConstants.PaddleHeight);
-
-            var rightPaddle = new Paddle(x: GlobalConstants.GridWidth - 1,
-                                         y: GlobalConstants.InitialPaddleY, 
-                                         height: GlobalConstants.PaddleHeight);
-
+            var leftPaddle = new Paddle(GlobalConstants.LeftPaddleX);
+            var rightPaddle = new Paddle(GlobalConstants.RightPaddleX);
+            var ball = new Ball();
+            
             var pongGame = new PongGame(ball, leftPaddle, rightPaddle);
             pongGame.Start();
         }

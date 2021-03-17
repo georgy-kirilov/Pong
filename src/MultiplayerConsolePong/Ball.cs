@@ -1,15 +1,22 @@
 ﻿namespace MultiplayerConsolePong
 {
-    using System;
-
     public class Ball
     {
-        public Ball(int x, int y, int speedX, int speedY, bool isMovingLeft = true, bool isMovingUp = true)
+        public Ball(int x = GlobalConstants.BallX, 
+                    int y = GlobalConstants.BallY, 
+                    int speedX = 2, 
+                    int speedY = 1, 
+                    int leftMostX = GlobalConstants.LeftPaddleX + 1, 
+                    int rightMostX = GlobalConstants.RightPaddleX - 1, 
+                    bool isMovingLeft = true, 
+                    bool isMovingUp = true)
         {
             this.X = x;
             this.Y = y;
             this.SpeedX = speedX;
             this.SpeedY = speedY;
+            this.LeftMostX = leftMostX;
+            this.RightMostX = rightMostX;
             this.IsMovingLeft = isMovingLeft;
             this.IsMovingUp = isMovingUp;
         }
@@ -22,6 +29,10 @@
 
         public int SpeedY { get; private set; }
 
+        public int LeftMostX { get; }
+
+        public int RightMostX { get; }
+
         public bool IsMovingLeft { get; set; }
 
         public bool IsMovingUp { get; set; }
@@ -30,13 +41,14 @@
         {
             this.X += this.IsMovingLeft ? -this.SpeedX : this.SpeedX;
 
-            if (this.X <= 2)
+            if (this.X <= this.LeftMostX)
             {
-                this.X = 2;
+                this.X = this.LeftMostX;
             }
-            if (this.X >= GlobalConstants.GridWidth - 2)
+
+            if (this.X >= this.RightMostX)
             {
-                this.X = GlobalConstants.GridWidth - 2;
+                this.X = this.RightMostX;
             }
 
             this.Y += this.IsMovingUp ? -this.SpeedY : this.SpeedY;
@@ -46,6 +58,7 @@
                 this.Y = 0;
                 this.IsMovingUp = false;
             }
+
             if (this.Y >= GlobalConstants.GridHeight - 1)
             {
                 this.Y = GlobalConstants.GridHeight - 1;
@@ -55,7 +68,7 @@
 
         public void Draw()
         {
-            ConsoleManager.WriteAt(this.X, this.Y, "@");
+            ConsoleManager.WriteAt(this.X, this.Y, GlobalConstants.BallSymbol);
         }
 
         public void Clear()
