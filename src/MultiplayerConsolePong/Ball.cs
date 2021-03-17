@@ -6,13 +6,13 @@ namespace MultiplayerConsolePong
     {
         private readonly Random random = new Random();
 
-        public Ball(int x = GlobalConstants.BallX, 
-                    int y = GlobalConstants.BallY, 
-                    int speedX = 2, 
-                    int speedY = 1, 
-                    int leftMostX = GlobalConstants.LeftPaddleX + 1, 
-                    int rightMostX = GlobalConstants.RightPaddleX - 1, 
-                    bool isMovingLeft = true, 
+        public Ball(int x = GlobalConstants.BallX,
+                    int y = GlobalConstants.BallY,
+                    int speedX = GlobalConstants.BallDefaultHorizontalSpeed,
+                    int speedY = GlobalConstants.BallDefaultVerticalSpeed,
+                    int leftMostX = GlobalConstants.LeftPaddleX + 1,
+                    int rightMostX = GlobalConstants.RightPaddleX - 1,
+                    bool isMovingLeft = true,
                     bool isMovingUp = true)
         {
             this.X = x;
@@ -43,7 +43,7 @@ namespace MultiplayerConsolePong
 
         public void ChangeHorizontalSpeed()
         {
-            this.SpeedX = this.random.Next(1, 4);
+            this.SpeedX = this.random.Next(GlobalConstants.BallDefaultHorizontalSpeed, 4);
         }
 
         public void Move()
@@ -75,7 +75,7 @@ namespace MultiplayerConsolePong
             }
         }
 
-        public void Draw()
+        public void Print()
         {
             ConsoleManager.WriteAt(this.X, this.Y, GlobalConstants.BallSymbol);
         }

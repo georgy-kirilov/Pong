@@ -15,11 +15,13 @@
         public const char BallSymbol = '@';
         public const int BallX = GridWidth / 2;
         public const int BallY = GridHeight / 2;
+        public const int BallDefaultHorizontalSpeed = 2;
+        public const int BallDefaultVerticalSpeed = 1;
 
         // Paddles
         public const int PaddleHeight = 4;
         public const char PaddleSymbol = ' ';
-        public const ConsoleColor PaddleColor = ConsoleColor.White;
+        public const ConsoleColor PaddleColor = ConsoleColor.DarkYellow;
         public const int PaddleY = GridHeight / 2 - PaddleHeight / 2;
         public const int LeftPaddleX = 1;
         public const int RightPaddleX = GridWidth - 1;

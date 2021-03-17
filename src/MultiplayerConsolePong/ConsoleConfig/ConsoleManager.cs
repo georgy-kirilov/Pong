@@ -16,13 +16,16 @@
             ClearAt(Console.CursorLeft + left, Console.CursorTop + top);
         }
 
-        public static void WriteAt(int x, int y, object value, ConsoleColor? background = null)
+        public static void WriteAt(int x, int y, object value, ConsoleColor? background = null, ConsoleColor? foreground = null)
         {
             var oldBackground = Console.BackgroundColor;
+            var oldForeground = Console.ForegroundColor; 
             Console.BackgroundColor = background ?? oldBackground;
+            Console.ForegroundColor = foreground ?? oldForeground;
             Console.SetCursorPosition(x, y);
             Console.Write(value);
             Console.BackgroundColor = oldBackground;
+            Console.ForegroundColor = oldForeground;
         }
 
         public static void ClearAt(int x, int y)

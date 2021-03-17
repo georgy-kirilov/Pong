@@ -29,18 +29,38 @@
 
         public void Start()
         {
+            string winner = null;
+
             while (this.leftPaddle.Score < this.RoundsToWinCount && this.rightPaddle.Score < this.RoundsToWinCount)
             {
                 this.NewRound();
+
+                if (this.leftPaddle.Score >= this.RoundsToWinCount)
+                {
+                    winner = "LEFT";
+                    break;
+                }
+
+                if (this.rightPaddle.Score >= this.RoundsToWinCount)
+                {
+                    winner = "RIGHT";
+                    break;
+                }
             }
+
+            string message = $"{winner} PLAYER WINS!";
+            ConsoleManager.WriteAt(GlobalConstants.GridWidth / 2 - message.Length / 2, GlobalConstants.GridHeight / 2, message, null, ConsoleColor.DarkYellow);
+            Console.ReadKey();
         }
 
         private void NewRound()
         {
             bool roundOver = false;
 
-            this.rightPaddle.Print();
+            ConsoleManager.ClearConsole();
+
             this.leftPaddle.Print();
+            this.rightPaddle.Print();
 
             while (!roundOver)
             {
@@ -50,7 +70,7 @@
                 roundOver |= this.HasLeftPaddleConceded();
                 roundOver |= this.HasRightPaddleConceded();
 
-                this.ball.Draw();
+                this.ball.Print();
                 this.PrintScore();
                 this.PrintGridMarking();
 
@@ -59,17 +79,14 @@
             }
 
             this.ball.X = GlobalConstants.BallX;
-            this.ball.Y = this.NewBallY();
-            this.ball.SpeedX = 2;
+            this.ball.Y = this.NewRandomBallY();
+            this.ball.SpeedX = GlobalConstants.BallDefaultHorizontalSpeed;
             this.ball.IsMovingLeft = this.NewRandomBool();
             this.ball.IsMovingUp = this.NewRandomBool();
 
             this.leftPaddle.TopY = GlobalConstants.PaddleY;
             this.rightPaddle.TopY = GlobalConstants.PaddleY;
-
-            ConsoleManager.ClearConsole();
         }
-
 
         private void PrintGridMarking()
         {
@@ -85,7 +102,7 @@
         {
             string scoreAsText = $"{this.leftPaddle.Score} : {this.rightPaddle.Score}";
             int scoreX = GlobalConstants.GridWidth / 2 - scoreAsText.Length / 2;
-            ConsoleManager.WriteAt(scoreX, GlobalConstants.GridScoreY, scoreAsText);
+            ConsoleManager.WriteAt(scoreX, GlobalConstants.GridScoreY, scoreAsText, null, ConsoleColor.Green);
         }
 
         private bool HasBallHitPaddle(Paddle paddle)
@@ -173,7 +190,7 @@
             return this.random.Next(0, 2) == 0;
         }
 
-        private int NewBallY()
+        private int NewRandomBallY()
         {
             return this.random.Next(GlobalConstants.GridHeight / 4, GlobalConstants.GridHeight / 4 * 3);
         }
