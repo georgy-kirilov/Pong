@@ -5,7 +5,7 @@
     public static class GlobalConstants
     {
         // Grid
-        public const int GridHeight = 28;
+        public const int GridHeight = 26;
         public const int GridWidth = 100;
         public const int GridScoreY = 1;
         public const char GridMarkingSymbol = ' ';
@@ -17,9 +17,9 @@
         public const int BallY = GridHeight / 2;
 
         // Paddles
-        public const int PaddleHeight = 6;
+        public const int PaddleHeight = 4;
         public const char PaddleSymbol = ' ';
-        public const ConsoleColor PaddleColor = ConsoleColor.DarkYellow;
+        public const ConsoleColor PaddleColor = ConsoleColor.White;
         public const int PaddleY = GridHeight / 2 - PaddleHeight / 2;
         public const int LeftPaddleX = 1;
         public const int RightPaddleX = GridWidth - 1;

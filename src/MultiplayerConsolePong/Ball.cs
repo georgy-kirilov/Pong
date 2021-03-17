@@ -1,7 +1,11 @@
-﻿namespace MultiplayerConsolePong
+﻿using System;
+
+namespace MultiplayerConsolePong
 {
     public class Ball
     {
+        private readonly Random random = new Random();
+
         public Ball(int x = GlobalConstants.BallX, 
                     int y = GlobalConstants.BallY, 
                     int speedX = 2, 
@@ -25,9 +29,9 @@
 
         public int Y { get; set; }
 
-        public int SpeedX { get; private set; }
+        public int SpeedX { get; set; }
 
-        public int SpeedY { get; private set; }
+        public int SpeedY { get; set; }
 
         public int LeftMostX { get; }
 
@@ -36,6 +40,11 @@
         public bool IsMovingLeft { get; set; }
 
         public bool IsMovingUp { get; set; }
+
+        public void ChangeHorizontalSpeed()
+        {
+            this.SpeedX = this.random.Next(1, 4);
+        }
 
         public void Move()
         {

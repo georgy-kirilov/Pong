@@ -5,10 +5,12 @@
 
     public class PongGame
     {
-        private Ball ball;
-        private Paddle leftPaddle;
-        private Paddle rightPaddle;
+        private readonly Ball ball;
+        private readonly Paddle leftPaddle;
+        private readonly Paddle rightPaddle;
         private readonly int sleepTimeMiliseconds;
+
+        private readonly Random random;
 
         public PongGame(Ball ball, 
                         Paddle leftPaddle, 
@@ -21,6 +23,7 @@
             this.rightPaddle = rightPaddle;
             this.sleepTimeMiliseconds = 1000 / framesPerSecond;
             this.RoundsToWinCount = roundsToWinCount;
+            this.random = new Random();
         }
         public int RoundsToWinCount { get; }
 
@@ -36,8 +39,8 @@
         {
             bool roundOver = false;
 
-            this.leftPaddle.Print();
             this.rightPaddle.Print();
+            this.leftPaddle.Print();
 
             while (!roundOver)
             {
@@ -56,7 +59,10 @@
             }
 
             this.ball.X = GlobalConstants.BallX;
-            this.ball.Y = GlobalConstants.BallY;
+            this.ball.Y = this.NewBallY();
+            this.ball.SpeedX = 2;
+            this.ball.IsMovingLeft = this.NewRandomBool();
+            this.ball.IsMovingUp = this.NewRandomBool();
 
             this.leftPaddle.TopY = GlobalConstants.PaddleY;
             this.rightPaddle.TopY = GlobalConstants.PaddleY;
@@ -84,7 +90,7 @@
 
         private bool HasBallHitPaddle(Paddle paddle)
         {
-            return this.ball.Y >= paddle.TopY && this.ball.Y <= paddle.BottomY;
+            return this.ball.Y >= paddle.TopY - 1 && this.ball.Y <= paddle.BottomY + 1;
         }
 
         private bool HasLeftPaddleConceded()
@@ -94,6 +100,7 @@
                 if (this.HasBallHitPaddle(this.leftPaddle))
                 {
                     this.ball.IsMovingLeft = false;
+                    this.ball.ChangeHorizontalSpeed();
                 }
                 else
                 {
@@ -112,6 +119,7 @@
                 if (this.HasBallHitPaddle(this.rightPaddle))
                 {
                     this.ball.IsMovingLeft = true;
+                    this.ball.ChangeHorizontalSpeed();
                 }
                 else
                 {
@@ -129,6 +137,7 @@
             {
                 ConsoleKey key = Console.ReadKey().Key;
                 Paddle paddleToMove = null;
+                ConsoleManager.ClearAtCursorPosition(left: -1);
 
                 if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
                 {
@@ -136,7 +145,6 @@
                 }
                 else if (key == ConsoleKey.W || key == ConsoleKey.S)
                 {
-                    ConsoleManager.ClearAtCursorPosition(left: -1);
                     paddleToMove = this.leftPaddle;
                 }
 
@@ -158,6 +166,16 @@
                     paddleToMove.Print();
                 }
             }
+        }
+
+        private bool NewRandomBool()
+        {
+            return this.random.Next(0, 2) == 0;
+        }
+
+        private int NewBallY()
+        {
+            return this.random.Next(GlobalConstants.GridHeight / 4, GlobalConstants.GridHeight / 4 * 3);
         }
     }
 }
