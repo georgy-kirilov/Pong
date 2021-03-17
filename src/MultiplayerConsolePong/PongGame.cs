@@ -78,14 +78,18 @@
                 this.ball.Clear();
             }
 
+            // Update ball properties
             this.ball.X = GlobalConstants.BallX;
             this.ball.Y = this.NewRandomBallY();
             this.ball.SpeedX = GlobalConstants.BallDefaultHorizontalSpeed;
             this.ball.IsMovingLeft = this.NewRandomBool();
             this.ball.IsMovingUp = this.NewRandomBool();
 
+            // Reset paddles positions
             this.leftPaddle.TopY = GlobalConstants.PaddleY;
             this.rightPaddle.TopY = GlobalConstants.PaddleY;
+
+            Thread.Sleep(GlobalConstants.PauseBetweenRoundsMilliseconds);
         }
 
         private void PrintGridMarking()

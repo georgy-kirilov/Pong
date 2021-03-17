@@ -10,6 +10,7 @@
         public const int GridScoreY = 1;
         public const char GridMarkingSymbol = ' ';
         public const ConsoleColor GridMarkingColor = ConsoleColor.White;
+        public const int PauseBetweenRoundsMilliseconds = 500;
 
         // Ball
         public const char BallSymbol = '@';

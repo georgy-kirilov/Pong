@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace MultiplayerConsolePong
+﻿namespace MultiplayerConsolePong
 {
+    using System;
+
     public class Ball
     {
         private readonly Random random = new Random();
