@@ -1,5 +1,8 @@
 ﻿namespace MultiplayerConsolePong
 {
+    using MultiplayerConsolePong.IO;
+    using System;
+
     public class Program
     {
         public static void Main()
@@ -17,12 +20,7 @@
                     })
                 .Build();
 
-            var leftPaddle = new Paddle(GlobalConstants.LeftPaddleX);
-            var rightPaddle = new Paddle(GlobalConstants.RightPaddleX);
-            var ball = new Ball();
-            
-            var pongGame = new PongGame(ball, leftPaddle, rightPaddle);
-            pongGame.Start();
+            IOProvider.Run();
         }
     }
 }
