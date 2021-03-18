@@ -3,28 +3,30 @@
     using System;
     using System.Threading;
 
-    public class PongGame
+    public abstract class PongGame : IPongGame
     {
-        private readonly Ball ball;
-        private readonly Paddle leftPaddle;
-        private readonly Paddle rightPaddle;
-        private readonly int sleepTimeMiliseconds;
-
-        private readonly Random random = new Random();
-
-        public PongGame(Ball ball, 
-                        Paddle leftPaddle, 
+        public PongGame(Paddle leftPaddle, 
                         Paddle rightPaddle, 
-                        int roundsToWinCount = GlobalConstants.RoundsToWinCount, 
+                        Ball ball, 
+                        int roundsToWinCount = GlobalConstants.RoundsToWinCount,
                         int framesPerSecond = GlobalConstants.FramesPerSecond)
         {
-            this.ball = ball;
-            this.leftPaddle = leftPaddle;
-            this.rightPaddle = rightPaddle;
-            this.sleepTimeMiliseconds = 1000 / framesPerSecond;
+            this.LeftPaddle = leftPaddle;
+            this.RightPaddle = rightPaddle;
+            this.Ball = ball;
             this.RoundsToWinCount = roundsToWinCount;
+            this.SleepTimeMilliseconds = 1000 / framesPerSecond;
         }
+
+        public Paddle LeftPaddle { get; }
+
+        public Paddle RightPaddle { get; }
+
+        public Ball Ball { get; }
+
         public int RoundsToWinCount { get; }
+
+        public int SleepTimeMilliseconds { get; }
 
         public void Start()
         {
@@ -34,13 +36,13 @@
             {
                 this.NewRound();
 
-                if (this.leftPaddle.Score >= this.RoundsToWinCount)
+                if (this.LeftPaddle.Score >= this.RoundsToWinCount)
                 {
                     winner = "LEFT";
                     break;
                 }
 
-                if (this.rightPaddle.Score >= this.RoundsToWinCount)
+                if (this.RightPaddle.Score >= this.RoundsToWinCount)
                 {
                     winner = "RIGHT";
                     break;
@@ -49,6 +51,7 @@
 
             string message = $"{winner} PLAYER WINS!";
             ConsoleManager.WriteAt(GlobalConstants.GridWidth / 2 - message.Length / 2, GlobalConstants.GridHeight / 2, message, null, ConsoleColor.DarkYellow);
+
             Console.ReadKey();
         }
 
@@ -58,73 +61,46 @@
 
             ConsoleManager.ClearConsole();
 
-            this.leftPaddle.Print();
-            this.rightPaddle.Print();
+            this.LeftPaddle.Print();
+            this.RightPaddle.Print();
 
             while (!roundOver)
             {
                 this.ManageUserInput();
-                this.ball.Move();
+                this.Ball.Move();
 
                 roundOver |= this.HasLeftPaddleConceded();
                 roundOver |= this.HasRightPaddleConceded();
 
-                this.ball.Print();
+                this.Ball.Print();
                 this.PrintScore();
                 this.PrintGridMarking();
 
-                Thread.Sleep(this.sleepTimeMiliseconds);
-                this.ball.Clear();
+                Thread.Sleep(this.SleepTimeMilliseconds);
+                this.Ball.Clear();
             }
 
-            // Update ball properties
-            this.ball.X = GlobalConstants.BallX;
-            this.ball.Y = this.NewRandomBallY();
-            this.ball.SpeedX = GlobalConstants.BallDefaultHorizontalSpeed;
-            this.ball.IsMovingLeft = this.NewRandomBool();
-            this.ball.IsMovingUp = this.NewRandomBool();
+            this.Ball.UpdateProperties();
 
-            // Reset paddles positions
-            this.leftPaddle.TopY = GlobalConstants.PaddleY;
-            this.rightPaddle.TopY = GlobalConstants.PaddleY;
+            this.LeftPaddle.ResetVerticalPosition();
+            this.RightPaddle.ResetVerticalPosition();
 
             Thread.Sleep(GlobalConstants.PauseBetweenRoundsMilliseconds);
         }
 
-        private void PrintGridMarking()
-        {
-            int column = GlobalConstants.GridWidth / 2;
-
-            for (int row = 3; row < GlobalConstants.GridHeight; row += 3)
-            {
-                ConsoleManager.WriteAt(column, row, GlobalConstants.GridMarkingSymbol, GlobalConstants.GridMarkingColor);
-            }
-        }
-
-        private void PrintScore()
-        {
-            string scoreAsText = $"{this.leftPaddle.Score} : {this.rightPaddle.Score}";
-            int scoreX = GlobalConstants.GridWidth / 2 - scoreAsText.Length / 2;
-            ConsoleManager.WriteAt(scoreX, GlobalConstants.GridScoreY, scoreAsText, null, ConsoleColor.Green);
-        }
-
-        private bool HasBallHitPaddle(Paddle paddle)
-        {
-            return this.ball.Y >= paddle.TopY - 1 && this.ball.Y <= paddle.BottomY + 1;
-        }
-
         private bool HasLeftPaddleConceded()
         {
-            if (this.ball.IsMovingLeft && this.ball.X == this.ball.LeftMostX)
+            if (this.Ball.IsMovingLeft && this.Ball.X == this.Ball.LeftMostX)
             {
-                if (this.HasBallHitPaddle(this.leftPaddle))
+                if (this.LeftPaddle.HasHitBall(this.Ball))
                 {
-                    this.ball.IsMovingLeft = false;
-                    this.ball.ChangeHorizontalSpeed();
+                    this.Ball.IsMovingLeft= false;
+                    this.Ball.ChangeSpeedX();
+                    this.Ball.ChangeSpeedY();
                 }
                 else
                 {
-                    this.rightPaddle.Score++;
+                    this.RightPaddle.Score++;
                     return true;
                 }
             }
@@ -134,16 +110,17 @@
 
         private bool HasRightPaddleConceded()
         {
-            if (!this.ball.IsMovingLeft && this.ball.X == this.ball.RightMostX)
+            if (!this.Ball.IsMovingLeft && this.Ball.X == this.Ball.RightMostX)
             {
-                if (this.HasBallHitPaddle(this.rightPaddle))
+                if (this.RightPaddle.HasHitBall(this.Ball))
                 {
-                    this.ball.IsMovingLeft = true;
-                    this.ball.ChangeHorizontalSpeed();
+                    this.Ball.IsMovingLeft = true;
+                    this.Ball.ChangeSpeedX();
+                    this.Ball.ChangeSpeedY();
                 }
                 else
                 {
-                    this.leftPaddle.Score++;
+                    this.LeftPaddle.Score++;
                     return true;
                 }
             }
@@ -151,7 +128,7 @@
             return false;
         }
 
-        private void ManageUserInput()
+        protected virtual void ManageUserInput()
         {
             if (Console.KeyAvailable)
             {
@@ -161,11 +138,11 @@
 
                 if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
                 {
-                    paddleToMove = this.rightPaddle;
+                    paddleToMove = this.RightPaddle;
                 }
                 else if (key == ConsoleKey.W || key == ConsoleKey.S)
                 {
-                    paddleToMove = this.leftPaddle;
+                    paddleToMove = this.LeftPaddle;
                 }
 
                 bool moveUp = key == ConsoleKey.UpArrow || key == ConsoleKey.W;
@@ -188,14 +165,21 @@
             }
         }
 
-        private bool NewRandomBool()
+        private void PrintGridMarking()
         {
-            return this.random.Next(0, 2) == 0;
+            int column = GlobalConstants.GridWidth / 2;
+
+            for (int row = 3; row < GlobalConstants.GridHeight; row += 3)
+            {
+                ConsoleManager.WriteAt(column, row, GlobalConstants.GridMarkingSymbol, GlobalConstants.GridMarkingColor);
+            }
         }
 
-        private int NewRandomBallY()
+        private void PrintScore()
         {
-            return this.random.Next(GlobalConstants.GridHeight / 4, GlobalConstants.GridHeight / 4 * 3);
+            string scoreAsText = $"{this.LeftPaddle.Score} : {this.RightPaddle.Score}";
+            int scoreX = GlobalConstants.GridWidth / 2 - scoreAsText.Length / 2;
+            ConsoleManager.WriteAt(scoreX, GlobalConstants.GridScoreY, scoreAsText, null, GlobalConstants.ScoreColor);
         }
     }
 }

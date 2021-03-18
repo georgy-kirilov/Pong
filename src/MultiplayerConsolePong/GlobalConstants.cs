@@ -16,8 +16,10 @@
         public const char BallSymbol = '@';
         public const int BallX = GridWidth / 2;
         public const int BallY = GridHeight / 2;
-        public const int BallDefaultHorizontalSpeed = 2;
-        public const int BallDefaultVerticalSpeed = 1;
+        public const int BallMinSpeedX = 2;
+        public const int BallMinSpeedY = 1;
+        public const int BallMaxSpeedX = 3;
+        public const int BallMaxSpeedY = 1;
 
         // Paddles
         public const int PaddleHeight = 4;
@@ -30,5 +32,6 @@
         // Pong game
         public const int RoundsToWinCount = 5;
         public const int FramesPerSecond = 30;
+        public const ConsoleColor ScoreColor = ConsoleColor.Green;
     }
 }

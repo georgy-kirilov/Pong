@@ -45,6 +45,16 @@
             }
         }
 
+        public void ResetVerticalPosition()
+        {
+            this.TopY = GlobalConstants.PaddleY;
+        }
+
+        public bool HasHitBall(Ball ball)
+        {
+            return ball.Y >= this.TopY - 1 && ball.Y <= this.BottomY + 1;
+        }
+
         public void Print()
         {
             for (int row = this.TopY; row <= this.BottomY; row++)
