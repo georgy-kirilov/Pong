@@ -25,22 +25,6 @@
 
         public int VerticalSpeed { get; set; }
 
-        public void Print()
-        {
-            for (int row = this.TopY; row <= this.BottomY; row++)
-            {
-                ConsoleManager.WriteAt(this.X, row, GlobalConstants.PaddleSymbol, GlobalConstants.PaddleColor);
-            }
-        }
-
-        public void Clear()
-        {
-            for (int row = this.TopY; row <= this.BottomY; row++)
-            {
-                ConsoleManager.ClearAt(this.X, row);
-            }
-        }
-
         public void MoveUp()
         {
             this.TopY -= this.VerticalSpeed;
@@ -58,6 +42,22 @@
             if (this.BottomY >= GlobalConstants.GridHeight)
             {
                 this.TopY = GlobalConstants.GridHeight - this.Height - 1;
+            }
+        }
+
+        public void Print()
+        {
+            for (int row = this.TopY; row <= this.BottomY; row++)
+            {
+                ConsoleManager.WriteAt(this.X, row, GlobalConstants.PaddleSymbol, GlobalConstants.PaddleColor);
+            }
+        }
+
+        public void Clear()
+        {
+            for (int row = this.TopY; row <= this.BottomY; row++)
+            {
+                ConsoleManager.ClearAt(this.X, row);
             }
         }
     }

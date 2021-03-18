@@ -1,8 +1,5 @@
 ﻿namespace MultiplayerConsolePong
 {
-    using MultiplayerConsolePong.IO;
-    using System;
-
     public class Program
     {
         public static void Main()
@@ -20,7 +17,7 @@
                     })
                 .Build();
 
-            IOProvider.Run();
+            Engine.Run();
         }
     }
 }

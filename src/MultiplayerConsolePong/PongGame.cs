@@ -10,7 +10,7 @@
         private readonly Paddle rightPaddle;
         private readonly int sleepTimeMiliseconds;
 
-        private readonly Random random;
+        private readonly Random random = new Random();
 
         public PongGame(Ball ball, 
                         Paddle leftPaddle, 
@@ -23,7 +23,6 @@
             this.rightPaddle = rightPaddle;
             this.sleepTimeMiliseconds = 1000 / framesPerSecond;
             this.RoundsToWinCount = roundsToWinCount;
-            this.random = new Random();
         }
         public int RoundsToWinCount { get; }
 
@@ -31,7 +30,7 @@
         {
             string winner = null;
 
-            while (this.leftPaddle.Score < this.RoundsToWinCount && this.rightPaddle.Score < this.RoundsToWinCount)
+            while (true)
             {
                 this.NewRound();
 
