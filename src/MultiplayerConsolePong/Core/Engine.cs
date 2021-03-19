@@ -12,7 +12,7 @@
             "New 2 Player Game", "New Game Against Bot", "New Online Game", "EXIT"
         };
 
-        private static readonly string[] BotDifficultyOptions = new string[]
+        private static readonly string[] RobotDifficultyOptions = new string[]
         {
             "Beginner", "Intermediate", "Expert"
         };
@@ -35,7 +35,7 @@
                 }
                 else if (menuItem == MainMenuOption.AgainstBot)
                 {
-                    BotDifficulty difficulty = BotDifficultyMenu();
+                    RobotDifficulty difficulty = BotDifficultyMenu();
                     bool isBotWithLeftPaddle = PaddleSideMenu() != PaddleSide.Left;
                     var game = new RobotPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball(), difficulty, isBotWithLeftPaddle);
                     game.Start();
@@ -63,18 +63,18 @@
             }
         }
 
-        private static BotDifficulty BotDifficultyMenu()
+        private static RobotDifficulty BotDifficultyMenu()
         {
             int selectedOptionIndex = 0;
 
             while (true)
             {
-                PrintMenu("CHOOSE DIFFICULTY", BotDifficultyOptions, selectedOptionIndex);
-                bool indexSelected = SelectOptionIndex(BotDifficultyOptions.Length, ref selectedOptionIndex);
+                PrintMenu("CHOOSE DIFFICULTY", RobotDifficultyOptions, selectedOptionIndex);
+                bool indexSelected = SelectOptionIndex(RobotDifficultyOptions.Length, ref selectedOptionIndex);
 
                 if (indexSelected)
                 {
-                    return (BotDifficulty)selectedOptionIndex;
+                    return (RobotDifficulty)selectedOptionIndex;
                 }
             }
         }

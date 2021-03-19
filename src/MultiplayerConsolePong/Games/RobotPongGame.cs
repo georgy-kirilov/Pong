@@ -12,7 +12,7 @@
                 Paddle leftPaddle, 
                 Paddle rightPaddle, 
                 Ball ball, 
-                BotDifficulty difficulty = BotDifficulty.Intermediate,
+                RobotDifficulty difficulty = RobotDifficulty.Intermediate,
                 bool isBotWithLeftPaddle = true,
                 int roundsToWinCount = GlobalConstants.Gameplay.RoundsToWinCount,
                 int framesPerSecond = GlobalConstants.Gameplay.FramesPerSecond)
@@ -21,15 +21,15 @@
         {
             switch (difficulty)
             {
-                case BotDifficulty.Beginner:
+                case RobotDifficulty.Beginner:
                     this.NumericDifficulty = 0.5;
                     break;
 
-                case BotDifficulty.Intermediate:
+                case RobotDifficulty.Intermediate:
                     this.NumericDifficulty = 0.70;
                     break;
 
-                case BotDifficulty.Expert:
+                case RobotDifficulty.Expert:
                     this.NumericDifficulty = 0.85;
                     break;
 

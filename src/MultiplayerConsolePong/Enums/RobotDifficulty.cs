@@ -1,6 +1,6 @@
 ﻿namespace MultiplayerConsolePong.Enums
 {
-    public enum BotDifficulty
+    public enum RobotDifficulty
     {
         Beginner = 0,
         Intermediate = 1,
