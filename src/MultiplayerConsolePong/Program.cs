@@ -18,8 +18,8 @@
                     optionsBuilder.AllowResizing = false;
                     optionsBuilder.AllowScrollbars = false;
                     optionsBuilder.IsCursorVisible = false;
-                    optionsBuilder.Width = GlobalConstants.GridWidth;
-                    optionsBuilder.Height = GlobalConstants.GridHeight;
+                    optionsBuilder.Width = GlobalConstants.Grid.Width;
+                    optionsBuilder.Height = GlobalConstants.Grid.Height;
                 })
                 .Build();
         }

@@ -6,8 +6,8 @@
     public abstract class PongGame : IPongGame
     {
         public PongGame(Paddle leftPaddle, Paddle rightPaddle, Ball ball,
-                        int roundsToWinCount = GlobalConstants.RoundsToWinCount,
-                        int framesPerSecond = GlobalConstants.FramesPerSecond)
+                        int roundsToWinCount = GlobalConstants.Gameplay.RoundsToWinCount,
+                        int framesPerSecond = GlobalConstants.Gameplay.FramesPerSecond)
         {
             this.LeftPaddle = leftPaddle;
             this.RightPaddle = rightPaddle;
@@ -50,8 +50,8 @@
             string message = $"{winner} PLAYER WINS!";
 
             ConsoleManager.WriteAt(
-                GlobalConstants.GridWidth / 2 - message.Length / 2, 
-                GlobalConstants.GridHeight / 2, message, null, ConsoleColor.DarkYellow);
+                GlobalConstants.Grid.Width / 2 - message.Length / 2, 
+                GlobalConstants.Grid.Height / 2, message, null, ConsoleColor.DarkYellow);
 
             Console.ReadKey();
         }
@@ -85,7 +85,7 @@
             this.LeftPaddle.ResetVerticalPosition();
             this.RightPaddle.ResetVerticalPosition();
 
-            Thread.Sleep(GlobalConstants.PauseBetweenRoundsMilliseconds);
+            Thread.Sleep(GlobalConstants.Gameplay.PauseBetweenRoundsMilliseconds);
         }
 
         protected virtual void UpdatePaddles()
@@ -163,19 +163,19 @@
 
         private void PrintGridMarking()
         {
-            int column = GlobalConstants.GridWidth / 2;
+            int column = GlobalConstants.Grid.Width / 2;
 
-            for (int row = 3; row < GlobalConstants.GridHeight; row += 3)
+            for (int row = 3; row < GlobalConstants.Grid.Height; row += 3)
             {
-                ConsoleManager.WriteAt(column, row, GlobalConstants.GridMarkingSymbol, GlobalConstants.GridMarkingColor);
+                ConsoleManager.WriteAt(column, row, GlobalConstants.Grid.MarkingSymbol, GlobalConstants.Grid.MarkingColor);
             }
         }
 
         private void PrintScore()
         {
             string scoreAsText = $"{this.LeftPaddle.Score} : {this.RightPaddle.Score}";
-            int scoreX = GlobalConstants.GridWidth / 2 - scoreAsText.Length / 2;
-            ConsoleManager.WriteAt(scoreX, GlobalConstants.GridScoreY, scoreAsText, null, GlobalConstants.ScoreColor);
+            int scoreX = GlobalConstants.Grid.Width / 2 - scoreAsText.Length / 2;
+            ConsoleManager.WriteAt(scoreX, GlobalConstants.Grid.ScoreViewY, scoreAsText, null, GlobalConstants.Grid.ScoreViewColor);
         }
     }
 }

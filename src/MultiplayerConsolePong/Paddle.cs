@@ -50,9 +50,9 @@
         {
             this.TopY += this.VerticalSpeed;
 
-            if (this.BottomY >= GlobalConstants.GridHeight)
+            if (this.BottomY >= GlobalConstants.Grid.Height)
             {
-                this.TopY = GlobalConstants.GridHeight - this.Height - 1;
+                this.TopY = GlobalConstants.Grid.Height - this.Height - 1;
             }
         }
 

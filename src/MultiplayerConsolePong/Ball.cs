@@ -6,10 +6,10 @@
     {
         private readonly Random random = new Random();
 
-        public Ball(int x = GlobalConstants.BallX,
-                    int y = GlobalConstants.BallY,
-                    int speedX = GlobalConstants.BallMinSpeedX,
-                    int speedY = GlobalConstants.BallMinSpeedY,
+        public Ball(int x = GlobalConstants.Ball.InitialX,
+                    int y = GlobalConstants.Ball.InitialY,
+                    int speedX = GlobalConstants.Ball.MinSpeedX,
+                    int speedY = GlobalConstants.Ball.MinSpeedY,
                     int leftMostX = GlobalConstants.Paddles.LeftX + 1,
                     int rightMostX = GlobalConstants.Paddles.RightX - 1,
                     bool isMovingLeft = true,
@@ -43,24 +43,24 @@
 
         public void ChangeSpeedX()
         {
-            this.SpeedX = this.random.Next(GlobalConstants.BallMinSpeedX, GlobalConstants.BallMaxSpeedX + 1);
+            this.SpeedX = this.random.Next(GlobalConstants.Ball.MinSpeedX, GlobalConstants.Ball.MaxSpeedX + 1);
         }
 
         public void ChangeSpeedY()
         {
-            this.SpeedY = this.random.Next(GlobalConstants.BallMinSpeedY, GlobalConstants.BallMaxSpeedY + 1);
+            this.SpeedY = this.random.Next(GlobalConstants.Ball.MinSpeedY, GlobalConstants.Ball.MaxSpeedY + 1);
         }
 
         public void UpdateProperties()
         {
-            this.X = GlobalConstants.BallX;
+            this.X = GlobalConstants.Ball.InitialX;
 
-            int topY = (int)(GlobalConstants.GridHeight * 0.2);
-            int bottomY = (int)(GlobalConstants.GridHeight * 0.8);
+            int topY = (int)(GlobalConstants.Grid.Height * 0.2);
+            int bottomY = (int)(GlobalConstants.Grid.Height * 0.8);
             this.Y = this.random.Next(topY, bottomY);
 
-            this.SpeedX = GlobalConstants.BallMinSpeedX;
-            this.SpeedY = GlobalConstants.BallMinSpeedY;
+            this.SpeedX = GlobalConstants.Ball.MinSpeedX;
+            this.SpeedY = GlobalConstants.Ball.MinSpeedY;
 
             this.IsMovingLeft = this.random.NextDouble() >= 0.5;
             this.IsMovingUp = this.random.NextDouble() >= 0.5;
@@ -92,16 +92,16 @@
                 this.IsMovingUp = false;
             }
 
-            if (this.Y >= GlobalConstants.GridHeight - 1)
+            if (this.Y >= GlobalConstants.Grid.Height - 1)
             {
-                this.Y = GlobalConstants.GridHeight - 1;
+                this.Y = GlobalConstants.Grid.Height - 1;
                 this.IsMovingUp = true;
             }
         }
 
         public void Print()
         {
-            ConsoleManager.WriteAt(this.X, this.Y, GlobalConstants.BallSymbol);
+            ConsoleManager.WriteAt(this.X, this.Y, GlobalConstants.Ball.Symbol);
         }
 
         public void Clear()

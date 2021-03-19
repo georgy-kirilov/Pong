@@ -7,11 +7,14 @@
         private readonly Random random = new Random();
 
         public BotPongGame(
-            Paddle leftPaddle, Paddle rightPaddle, Ball ball, 
-            BotDifficulty difficulty = BotDifficulty.Intermediate,
-            bool isBotWithLeftPaddle = true,
-            int roundsToWinCount = GlobalConstants.RoundsToWinCount,
-            int framesPerSecond = GlobalConstants.FramesPerSecond) : base(leftPaddle, rightPaddle, ball, roundsToWinCount, framesPerSecond)
+                Paddle leftPaddle, 
+                Paddle rightPaddle, 
+                Ball ball, 
+                BotDifficulty difficulty = BotDifficulty.Intermediate,
+                bool isBotWithLeftPaddle = true,
+                int roundsToWinCount = GlobalConstants.Gameplay.RoundsToWinCount,
+                int framesPerSecond = GlobalConstants.Gameplay.FramesPerSecond) 
+            : base(leftPaddle, rightPaddle, ball, roundsToWinCount, framesPerSecond)
         {
             switch (difficulty)
             {
@@ -20,7 +23,7 @@
                     break;
 
                 case BotDifficulty.Intermediate:
-                    this.NumericDifficulty = 0.75;
+                    this.NumericDifficulty = 0.70;
                     break;
 
                 case BotDifficulty.Expert:
@@ -57,9 +60,13 @@
 
         private void UpdateBotPaddle()
         {
-            bool validBallDirection = this.IsBotPaddleLeft && this.Ball.IsMovingLeft || !this.IsBotPaddleLeft && !this.Ball.IsMovingLeft;
+            bool validBallDirection = this.IsBotPaddleLeft && this.Ball.IsMovingLeft || 
+                !this.IsBotPaddleLeft && !this.Ball.IsMovingLeft;
+
             bool successfulPaddleMovement = this.random.NextDouble() <= this.NumericDifficulty;
-            bool ballInsidePaddleHalf = this.IsBotPaddleLeft && this.Ball.X < GlobalConstants.GridWidth / 2 || !this.IsBotPaddleLeft && this.Ball.X > GlobalConstants.GridWidth / 2;
+
+            bool ballInsidePaddleHalf = this.IsBotPaddleLeft && this.Ball.X < GlobalConstants.Grid.Width / 2 || 
+                !this.IsBotPaddleLeft && this.Ball.X > GlobalConstants.Grid.Width / 2;
 
             if (validBallDirection && successfulPaddleMovement && ballInsidePaddleHalf)
             {

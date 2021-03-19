@@ -6,18 +6,43 @@
     {
         private static readonly string[] MainMenuOptions = new string[]
         {
-            "New 2 Player Game",
-            "New Game Against Bot",
-            "New Online Game",
-            "EXIT",
+            "New 2 Player Game", "New Game Against Bot", "New Online Game", "EXIT"
         };
 
         private static readonly string[] BotDifficultyOptions = new string[]
         {
-            "Beginner",
-            "Intermediate",
-            "Expert",
+            "Beginner", "Intermediate", "Expert"
         };
+
+        private static readonly string[] PaddleSideOptions = new string[]
+        {
+            "LEFT", "RIGHT"
+        };
+
+        public static void Run()
+        {
+            while (true)
+            {
+                MainMenuOption menuItem = MainMenu();
+
+                if (menuItem == MainMenuOption.TwoPlayerGame)
+                {
+                    var game = new TwoPlayerPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball());
+                    game.Start();
+                }
+                else if (menuItem == MainMenuOption.AgainstBot)
+                {
+                    BotDifficulty difficulty = BotDifficultyMenu();
+                    bool isBotWithLeftPaddle = PaddleSideMenu() != PaddleSide.Left;
+                    var game = new BotPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball(), difficulty, isBotWithLeftPaddle);
+                    game.Start();
+                }
+                else if (menuItem == MainMenuOption.Exit)
+                {
+                    Environment.Exit(0);
+                }
+            }
+        }
 
         private static MainMenuOption MainMenu()
         {
@@ -51,17 +76,33 @@
             }
         }
 
+        private static PaddleSide PaddleSideMenu()
+        {
+            int selectedOptionIndex = 0;
+
+            while (true)
+            {
+                PrintMenu("CHOOSE YOUR SIDE", PaddleSideOptions, selectedOptionIndex);
+                bool indexSelected = SelectOptionIndex(PaddleSideOptions.Length, ref selectedOptionIndex);
+
+                if (indexSelected)
+                {
+                    return (PaddleSide)selectedOptionIndex;
+                }
+            }
+        }
+
         private static void PrintMenu(string menuTitle, string[] menuOptions, int selectedOptionIndex = 0)
         {
-            int y = GlobalConstants.GridHeight / 3 - MainMenuOptions.Length / 4;
-            int x = GlobalConstants.GridWidth / 2;
+            int y = GlobalConstants.Grid.Height / 3 - MainMenuOptions.Length / 4;
+            int x = GlobalConstants.Grid.Width / 2;
             int index = 0;
 
             ConsoleManager.ClearConsole();
             menuTitle = $" {menuTitle} ";
 
-            ConsoleManager.WriteAt(GlobalConstants.GridWidth / 2 - menuTitle.Length / 2,
-                GlobalConstants.GridHeight / 6, menuTitle, ConsoleColor.Yellow, Console.BackgroundColor);
+            ConsoleManager.WriteAt(GlobalConstants.Grid.Width / 2 - menuTitle.Length / 2,
+                GlobalConstants.Grid.Height / 6, menuTitle, ConsoleColor.Yellow, Console.BackgroundColor);
 
             foreach (string option in menuOptions)
             {
@@ -99,30 +140,6 @@
             }
 
             return false;
-        }
-
-        public static void Run()
-        {
-            while (true)
-            {
-                MainMenuOption menuItem = MainMenu();
-
-                if (menuItem == MainMenuOption.TwoPlayerGame)
-                {
-                    var game = new TwoPlayerPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball());
-                    game.Start();
-                }
-                else if (menuItem == MainMenuOption.AgainstBot)
-                {
-                    BotDifficulty difficulty = BotDifficultyMenu();
-                    var game = new BotPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball(), difficulty);
-                    game.Start();
-                }
-                else if (menuItem == MainMenuOption.Exit)
-                {
-                    Environment.Exit(0);
-                }
-            }
         }
 
         private static Paddle NewLeftPaddle()
