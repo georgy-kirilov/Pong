@@ -6,8 +6,10 @@
     {
         private readonly Random random = new Random();
 
-        public BotPongGame(Paddle leftPaddle, Paddle rightPaddle, Ball ball, 
+        public BotPongGame(
+            Paddle leftPaddle, Paddle rightPaddle, Ball ball, 
             BotDifficulty difficulty = BotDifficulty.Intermediate,
+            bool isBotWithLeftPaddle = true,
             int roundsToWinCount = GlobalConstants.RoundsToWinCount,
             int framesPerSecond = GlobalConstants.FramesPerSecond) : base(leftPaddle, rightPaddle, ball, roundsToWinCount, framesPerSecond)
         {
@@ -28,57 +30,52 @@
                 default:
                     throw new NotSupportedException("Unsupported Bot Difficulty");
             }
+
+            this.BotPaddle = isBotWithLeftPaddle ? this.LeftPaddle : this.RightPaddle;
+            this.PlayerPaddle = isBotWithLeftPaddle ? this.RightPaddle : this.LeftPaddle;
+            this.IsBotPaddleLeft = isBotWithLeftPaddle;
         }
 
         public double NumericDifficulty { get; }
 
-        protected override void ManageUserInput()
+        public Paddle BotPaddle { get; }
+
+        public Paddle PlayerPaddle { get; }
+
+        public bool IsBotPaddleLeft { get; }
+
+        protected override void UpdatePaddles()
         {
-            if (this.Ball.IsMovingLeft && this.Ball.X < GlobalConstants.GridWidth / 2 && this.random.NextDouble() <= this.NumericDifficulty)
+            this.UpdateBotPaddle();
+            base.UpdatePaddles();
+        }
+
+        protected override void MovePaddlesByKey(ConsoleKey key)
+        {
+            this.ManagePaddleInput(this.PlayerPaddle, key);
+        }
+
+        private void UpdateBotPaddle()
+        {
+            bool validBallDirection = this.IsBotPaddleLeft && this.Ball.IsMovingLeft || !this.IsBotPaddleLeft && !this.Ball.IsMovingLeft;
+            bool successfulPaddleMovement = this.random.NextDouble() <= this.NumericDifficulty;
+            bool ballInsidePaddleHalf = this.IsBotPaddleLeft && this.Ball.X < GlobalConstants.GridWidth / 2 || !this.IsBotPaddleLeft && this.Ball.X > GlobalConstants.GridWidth / 2;
+
+            if (validBallDirection && successfulPaddleMovement && ballInsidePaddleHalf)
             {
-                int paddleHeightThird = this.LeftPaddle.Height / 3;
-                this.LeftPaddle.Clear();
+                int paddleHeightThird = this.BotPaddle.Height / 3;
+                this.BotPaddle.Clear();
 
-                if (this.LeftPaddle.TopY + paddleHeightThird > this.Ball.Y)
+                if (this.BotPaddle.TopY + paddleHeightThird > this.Ball.Y)
                 {
-                    this.LeftPaddle.MoveUp();
+                    this.BotPaddle.MoveUp();
                 }
-                else if (this.LeftPaddle.BottomY - paddleHeightThird < this.Ball.Y)
+                else if (this.BotPaddle.BottomY - paddleHeightThird < this.Ball.Y)
                 {
-                    this.LeftPaddle.MoveDown();
-                }
-
-                this.LeftPaddle.Print();
-            }
-
-            if (Console.KeyAvailable)
-            {
-                ConsoleKey key = Console.ReadKey().Key;
-                Paddle paddleToMove = null;
-                ConsoleManager.ClearAtCursorPosition(left: -1);
-
-                if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
-                {
-                    paddleToMove = this.RightPaddle;
+                    this.BotPaddle.MoveDown();
                 }
 
-                bool moveUp = key == ConsoleKey.UpArrow;
-
-                if (paddleToMove != null)
-                {
-                    paddleToMove.Clear();
-
-                    if (moveUp)
-                    {
-                        paddleToMove.MoveUp();
-                    }
-                    else
-                    {
-                        paddleToMove.MoveDown();
-                    }
-
-                    paddleToMove.Print();
-                }
+                this.BotPaddle.Print();
             }
         }
     }

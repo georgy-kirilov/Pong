@@ -21,17 +21,30 @@
         public const int BallMaxSpeedX = 3;
         public const int BallMaxSpeedY = 1;
 
-        // Paddles
-        public const int PaddleHeight = 4;
-        public const char PaddleSymbol = ' ';
-        public const ConsoleColor PaddleColor = ConsoleColor.DarkYellow;
-        public const int PaddleY = GridHeight / 2 - PaddleHeight / 2;
-        public const int LeftPaddleX = 1;
-        public const int RightPaddleX = GridWidth - 1;
-
         // Pong game
         public const int RoundsToWinCount = 5;
         public const int FramesPerSecond = 30;
         public const ConsoleColor ScoreColor = ConsoleColor.Green;
+
+        public static class Paddles
+        {
+            public const int Height = 4;
+
+            public const int SpeedY = 2;
+
+            public const int LeftX = 1;
+            public const int RightX = GridWidth - 1;
+
+            public const int InitialY = GridHeight / 2 - Height / 2;
+            public const char Symbol = ' ';
+
+            public const ConsoleColor BackgroundColor = ConsoleColor.DarkYellow;
+
+            public const ConsoleKey LeftMoveUpKey = ConsoleKey.W;
+            public const ConsoleKey LeftMoveDownKey = ConsoleKey.S;
+
+            public const ConsoleKey RightMoveUpKey = ConsoleKey.UpArrow;
+            public const ConsoleKey RightMoveDownKey = ConsoleKey.DownArrow;
+        }
     }
 }

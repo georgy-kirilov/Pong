@@ -27,7 +27,7 @@
             {
                 PrintMenu("WELCOME TO PONG 2021", MainMenuOptions, selectedOptionIndex);
                 bool indexSelected = SelectOptionIndex(MainMenuOptions.Length, ref selectedOptionIndex);
-                
+
                 if (indexSelected)
                 {
                     return (MainMenuOption)selectedOptionIndex;
@@ -109,28 +109,30 @@
 
                 if (menuItem == MainMenuOption.TwoPlayerGame)
                 {
-                    new TwoPlayerPongGame(
-                        new Paddle(GlobalConstants.LeftPaddleX),
-                        new Paddle(GlobalConstants.RightPaddleX),
-                        new Ball())
-                    .Start();
+                    var game = new TwoPlayerPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball());
+                    game.Start();
                 }
                 else if (menuItem == MainMenuOption.AgainstBot)
                 {
                     BotDifficulty difficulty = BotDifficultyMenu();
-
-                    new BotPongGame(
-                        new Paddle(GlobalConstants.LeftPaddleX),
-                        new Paddle(GlobalConstants.RightPaddleX),
-                        new Ball(), 
-                        difficulty)
-                    .Start();
+                    var game = new BotPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball(), difficulty);
+                    game.Start();
                 }
                 else if (menuItem == MainMenuOption.Exit)
                 {
                     Environment.Exit(0);
                 }
             }
+        }
+
+        private static Paddle NewLeftPaddle()
+        {
+            return new Paddle(GlobalConstants.Paddles.LeftX, GlobalConstants.Paddles.LeftMoveUpKey, GlobalConstants.Paddles.LeftMoveDownKey);
+        }
+
+        private static Paddle NewRightPaddle()
+        {
+            return new Paddle(GlobalConstants.Paddles.RightX, GlobalConstants.Paddles.RightMoveUpKey, GlobalConstants.Paddles.RightMoveDownKey);
         }
     }
 }

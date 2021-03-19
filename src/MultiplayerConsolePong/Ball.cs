@@ -10,8 +10,8 @@
                     int y = GlobalConstants.BallY,
                     int speedX = GlobalConstants.BallMinSpeedX,
                     int speedY = GlobalConstants.BallMinSpeedY,
-                    int leftMostX = GlobalConstants.LeftPaddleX + 1,
-                    int rightMostX = GlobalConstants.RightPaddleX - 1,
+                    int leftMostX = GlobalConstants.Paddles.LeftX + 1,
+                    int rightMostX = GlobalConstants.Paddles.RightX - 1,
                     bool isMovingLeft = true,
                     bool isMovingUp = true)
         {

@@ -5,9 +5,7 @@
 
     public abstract class PongGame : IPongGame
     {
-        public PongGame(Paddle leftPaddle, 
-                        Paddle rightPaddle, 
-                        Ball ball, 
+        public PongGame(Paddle leftPaddle, Paddle rightPaddle, Ball ball,
                         int roundsToWinCount = GlobalConstants.RoundsToWinCount,
                         int framesPerSecond = GlobalConstants.FramesPerSecond)
         {
@@ -30,7 +28,7 @@
 
         public void Start()
         {
-            string winner = null;
+            string winner = string.Empty;
 
             while (true)
             {
@@ -50,7 +48,10 @@
             }
 
             string message = $"{winner} PLAYER WINS!";
-            ConsoleManager.WriteAt(GlobalConstants.GridWidth / 2 - message.Length / 2, GlobalConstants.GridHeight / 2, message, null, ConsoleColor.DarkYellow);
+
+            ConsoleManager.WriteAt(
+                GlobalConstants.GridWidth / 2 - message.Length / 2, 
+                GlobalConstants.GridHeight / 2, message, null, ConsoleColor.DarkYellow);
 
             Console.ReadKey();
         }
@@ -58,7 +59,6 @@
         private void NewRound()
         {
             bool roundOver = false;
-
             ConsoleManager.ClearConsole();
 
             this.LeftPaddle.Print();
@@ -66,7 +66,7 @@
 
             while (!roundOver)
             {
-                this.ManageUserInput();
+                this.UpdatePaddles();
                 this.Ball.Move();
 
                 roundOver |= this.HasLeftPaddleConceded();
@@ -88,13 +88,46 @@
             Thread.Sleep(GlobalConstants.PauseBetweenRoundsMilliseconds);
         }
 
+        protected virtual void UpdatePaddles()
+        {
+            if (Console.KeyAvailable)
+            {
+                ConsoleKey key = Console.ReadKey().Key;
+                ConsoleManager.ClearAtCursorPosition(left: -1);
+                this.MovePaddlesByKey(key);
+            }
+        }
+
+        protected virtual void MovePaddlesByKey(ConsoleKey key)
+        {
+            this.ManagePaddleInput(this.LeftPaddle, key);
+            this.ManagePaddleInput(this.RightPaddle, key);
+        }
+
+        protected void ManagePaddleInput(Paddle paddle, ConsoleKey key)
+        {
+            paddle.Clear();
+
+            if (key == paddle.MoveUpKey)
+            {
+                paddle.MoveUp();
+            }
+            else if (key == paddle.MoveDownKey)
+            {
+                paddle.MoveDown();
+            }
+
+            paddle.Print();
+        }
+
+
         private bool HasLeftPaddleConceded()
         {
             if (this.Ball.IsMovingLeft && this.Ball.X == this.Ball.LeftMostX)
             {
                 if (this.LeftPaddle.HasHitBall(this.Ball))
                 {
-                    this.Ball.IsMovingLeft= false;
+                    this.Ball.IsMovingLeft = false;
                     this.Ball.ChangeSpeedX();
                     this.Ball.ChangeSpeedY();
                 }
@@ -126,43 +159,6 @@
             }
 
             return false;
-        }
-
-        protected virtual void ManageUserInput()
-        {
-            if (Console.KeyAvailable)
-            {
-                ConsoleKey key = Console.ReadKey().Key;
-                Paddle paddleToMove = null;
-                ConsoleManager.ClearAtCursorPosition(left: -1);
-
-                if (key == ConsoleKey.UpArrow || key == ConsoleKey.DownArrow)
-                {
-                    paddleToMove = this.RightPaddle;
-                }
-                else if (key == ConsoleKey.W || key == ConsoleKey.S)
-                {
-                    paddleToMove = this.LeftPaddle;
-                }
-
-                bool moveUp = key == ConsoleKey.UpArrow || key == ConsoleKey.W;
-
-                if (paddleToMove != null)
-                {
-                    paddleToMove.Clear();
-
-                    if (moveUp)
-                    {
-                        paddleToMove.MoveUp();
-                    }
-                    else
-                    {
-                        paddleToMove.MoveDown();
-                    }
-
-                    paddleToMove.Print();
-                }
-            }
         }
 
         private void PrintGridMarking()

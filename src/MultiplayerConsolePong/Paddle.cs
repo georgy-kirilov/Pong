@@ -1,16 +1,23 @@
 ﻿namespace MultiplayerConsolePong
 {
+    using System;
+
     public class Paddle
     {
-        private const int DefaultVerticalSpeed = 2;
+        public Paddle(int x, ConsoleKey moveUpKey, ConsoleKey moveDownKey) 
+            : this(x, GlobalConstants.Paddles.InitialY, GlobalConstants.Paddles.Height, moveUpKey, moveDownKey)
+        {
+        }
 
-        public Paddle(int x, int y = GlobalConstants.PaddleY, int height = GlobalConstants.PaddleHeight)
+        public Paddle(int x, int y, int height, ConsoleKey moveUpKey, ConsoleKey moveDownKey)
         {
             this.X = x;
             this.TopY = y;
             this.Height = height;
             this.Score = 0;
-            this.VerticalSpeed = DefaultVerticalSpeed;
+            this.VerticalSpeed = GlobalConstants.Paddles.SpeedY;
+            this.MoveUpKey = moveUpKey;
+            this.MoveDownKey = moveDownKey;
         }
 
         public int Height { get; set; }
@@ -24,6 +31,10 @@
         public int Score { get; set; }
 
         public int VerticalSpeed { get; set; }
+
+        public ConsoleKey MoveUpKey { get; }
+
+        public ConsoleKey MoveDownKey { get; }
 
         public void MoveUp()
         {
@@ -47,7 +58,7 @@
 
         public void ResetVerticalPosition()
         {
-            this.TopY = GlobalConstants.PaddleY;
+            this.TopY = GlobalConstants.Paddles.InitialY;
         }
 
         public bool HasHitBall(Ball ball)
@@ -59,7 +70,7 @@
         {
             for (int row = this.TopY; row <= this.BottomY; row++)
             {
-                ConsoleManager.WriteAt(this.X, row, GlobalConstants.PaddleSymbol, GlobalConstants.PaddleColor);
+                ConsoleManager.WriteAt(this.X, row, GlobalConstants.Paddles.Symbol, GlobalConstants.Paddles.BackgroundColor);
             }
         }
 
