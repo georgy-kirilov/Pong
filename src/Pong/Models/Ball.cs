@@ -1,7 +1,7 @@
-﻿namespace MultiplayerConsolePong.Models
+﻿namespace Pong.Models
 {
-    using MultiplayerConsolePong.Common;
     using System;
+    using Pong.Common;
 
     public class Ball
     {

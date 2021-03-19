@@ -1,9 +1,9 @@
-﻿namespace MultiplayerConsolePong.Games
+﻿namespace Pong.Games
 {
     using System;
-    using MultiplayerConsolePong.Common;
-    using MultiplayerConsolePong.Enums;
-    using MultiplayerConsolePong.Models;
+    using Pong.Common;
+    using Pong.Enums;
+    using Pong.Models;
 
     public class RobotPongGame : PongGame
     {

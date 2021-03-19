@@ -1,4 +1,4 @@
-﻿namespace MultiplayerConsolePong.Enums
+﻿namespace Pong.Enums
 {
     public enum RobotDifficultyOption
     {

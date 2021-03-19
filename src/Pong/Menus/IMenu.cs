@@ -1,4 +1,4 @@
-﻿namespace MultiplayerConsolePong.Menus
+﻿namespace Pong.Menus
 {
     using System;
 

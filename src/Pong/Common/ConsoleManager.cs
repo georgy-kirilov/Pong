@@ -1,4 +1,4 @@
-﻿namespace MultiplayerConsolePong.Common
+﻿namespace Pong.Common
 {
     using System;
 

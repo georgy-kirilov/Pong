@@ -1,7 +1,7 @@
-﻿namespace MultiplayerConsolePong.Core
+﻿namespace Pong.Core
 {
     using System;
-    using MultiplayerConsolePong.Common;
+    using Pong.Common;
 
     public class Program
     {

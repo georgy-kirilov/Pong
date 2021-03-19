@@ -1,4 +1,4 @@
-﻿namespace MultiplayerConsolePong.Games
+﻿namespace Pong.Games
 {
     public interface IPongGame
     {

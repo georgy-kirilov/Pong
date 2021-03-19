@@ -1,9 +1,9 @@
-﻿namespace MultiplayerConsolePong.Games
+﻿namespace Pong.Games
 {
     using System;
     using System.Threading;
-    using MultiplayerConsolePong.Common;
-    using MultiplayerConsolePong.Models;
+    using Pong.Common;
+    using Pong.Models;
 
     public abstract class PongGame : IPongGame
     {

@@ -1,7 +1,7 @@
-﻿namespace MultiplayerConsolePong.Models
+﻿namespace Pong.Models
 {
     using System;
-    using MultiplayerConsolePong.Common;
+    using Pong.Common;
 
     public class Paddle
     {

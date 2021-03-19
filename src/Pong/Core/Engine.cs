@@ -1,11 +1,11 @@
-﻿namespace MultiplayerConsolePong.Core
+﻿namespace Pong.Core
 {
     using System;
-    using MultiplayerConsolePong.Enums;
-    using MultiplayerConsolePong.Games;
-    using MultiplayerConsolePong.Models;
-    using MultiplayerConsolePong.Menus;
-    using MultiplayerConsolePong.Common;
+    using Pong.Enums;
+    using Pong.Games;
+    using Pong.Models;
+    using Pong.Menus;
+    using Pong.Common;
 
     public static class Engine
     {

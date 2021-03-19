@@ -1,6 +1,6 @@
-﻿namespace MultiplayerConsolePong.Menus
+﻿namespace Pong.Menus
 {
-    using MultiplayerConsolePong.Enums;
+    using Pong.Enums;
 
     public class RobotDifficultyMenu : Menu<RobotDifficultyOption>
     {
