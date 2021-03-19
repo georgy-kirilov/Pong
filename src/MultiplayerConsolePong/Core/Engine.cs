@@ -35,7 +35,7 @@
                 }
                 else if (menuItem == MainMenuOption.AgainstBot)
                 {
-                    RobotDifficulty difficulty = BotDifficultyMenu();
+                    RobotDifficulty difficulty = RobotDifficultyMenu();
                     bool isBotWithLeftPaddle = PaddleSideMenu() != PaddleSide.Left;
                     var game = new RobotPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball(), difficulty, isBotWithLeftPaddle);
                     game.Start();
@@ -63,7 +63,7 @@
             }
         }
 
-        private static RobotDifficulty BotDifficultyMenu()
+        private static RobotDifficulty RobotDifficultyMenu()
         {
             int selectedOptionIndex = 0;
 
@@ -104,8 +104,12 @@
             ConsoleManager.ClearConsole();
             menuTitle = $" {menuTitle} ";
 
+            // Print menu title
+
             ConsoleManager.WriteAt(GlobalConstants.Grid.Width / 2 - menuTitle.Length / 2,
                 GlobalConstants.Grid.Height / 6, menuTitle, ConsoleColor.Yellow, Console.BackgroundColor);
+
+            // Print menu options
 
             foreach (string option in menuOptions)
             {

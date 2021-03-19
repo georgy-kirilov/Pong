@@ -1,5 +1,7 @@
 ﻿namespace MultiplayerConsolePong.Core
 {
+    using System;
+
     public class Program
     {
         public static void Main()
@@ -22,6 +24,8 @@
                     optionsBuilder.Height = GlobalConstants.Grid.Height;
                 })
                 .Build();
+
+            Console.Title = GlobalConstants.Gameplay.GameTitle;
         }
     }
 }

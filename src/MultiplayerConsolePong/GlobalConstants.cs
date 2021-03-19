@@ -6,6 +6,7 @@
     {
         public static class Gameplay
         {
+            public const string GameTitle = "PONG 2021";
             public const int RoundsToWinCount = 5;
             public const int FramesPerSecond = 30;
             public const int PauseBetweenRoundsMilliseconds = 500;
