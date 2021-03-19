@@ -11,11 +11,11 @@
         private const int SC_MAXIMIZE = 0xF030;
         private const int SC_SIZE = 0xF000;
 
-        public ConsoleOptionsBuilder OptionsBuilder { get; private set; }
+        public ConsoleOptions Options { get; private set; }
 
         public ConsoleBuilder()
         {
-            this.OptionsBuilder = new ConsoleOptionsBuilder();
+            this.Options = new ConsoleOptions();
         }
 
         public void Build()
@@ -23,34 +23,34 @@
             IntPtr handle = GetConsoleWindow();
             IntPtr sysMenu = GetSystemMenu(handle, false);
 
-            Console.SetWindowSize(this.OptionsBuilder.Width, this.OptionsBuilder.Height);
-            Console.CursorVisible = this.OptionsBuilder.IsCursorVisible;
+            Console.SetWindowSize(this.Options.Width, this.Options.Height);
+            Console.CursorVisible = this.Options.IsCursorVisible;
 
             if (handle != IntPtr.Zero)
             {
-                if (!this.OptionsBuilder.AllowMinimizing)
+                if (!this.Options.AllowMinimizing)
                 {
                     DeleteMenu(sysMenu, SC_MINIMIZE, MF_BYCOMMAND);
                 }
 
-                if (!this.OptionsBuilder.AllowMaximizing)
+                if (!this.Options.AllowMaximizing)
                 {
                     DeleteMenu(sysMenu, SC_MAXIMIZE, MF_BYCOMMAND);
                 }
 
-                if (!this.OptionsBuilder.AllowResizing)
+                if (!this.Options.AllowResizing)
                 {
                     DeleteMenu(sysMenu, SC_SIZE, MF_BYCOMMAND);
                 }
 
-                if (!this.OptionsBuilder.AllowClosing)
+                if (!this.Options.AllowClosing)
                 {
                     DeleteMenu(sysMenu, SC_CLOSE, MF_BYCOMMAND);
                 }
 
-                if (!this.OptionsBuilder.AllowScrollbars)
+                if (!this.Options.AllowScrollbars)
                 {
-                    Console.SetBufferSize(this.OptionsBuilder.Width, this.OptionsBuilder.Height);
+                    Console.SetBufferSize(this.Options.Width, this.Options.Height);
                 }
             }
         }

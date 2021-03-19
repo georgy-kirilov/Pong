@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class ConsoleOptionsBuilder
+    public class ConsoleOptions
     {
         public bool AllowMaximizing { get; set; } = true;
 

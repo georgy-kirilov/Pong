@@ -4,10 +4,10 @@
 
     public static class ConsoleManager
     {
-        public static ConsoleBuilder Configure(Action<ConsoleOptionsBuilder> optionsBuilder)
+        public static ConsoleBuilder Configure(Action<ConsoleOptions> optionsBuilder)
         {
             var consoleBuilder = new ConsoleBuilder();
-            optionsBuilder(consoleBuilder.OptionsBuilder);
+            optionsBuilder(consoleBuilder.Options);
             return consoleBuilder;
         }
 
