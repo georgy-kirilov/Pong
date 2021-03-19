@@ -16,7 +16,7 @@
         {
             "New 2 Player Game",
             "New Game Against Bot",
-            "New Online Game",
+            "New Online Game (In Development)",
             "EXIT",
         };
 
