@@ -1,6 +1,7 @@
 ﻿namespace MultiplayerConsolePong.Core
 {
     using System;
+    using MultiplayerConsolePong.Common;
 
     public class Program
     {

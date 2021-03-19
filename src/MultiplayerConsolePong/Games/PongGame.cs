@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading;
+    using MultiplayerConsolePong.Common;
     using MultiplayerConsolePong.Models;
 
     public abstract class PongGame : IPongGame

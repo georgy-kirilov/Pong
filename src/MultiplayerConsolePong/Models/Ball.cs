@@ -1,5 +1,6 @@
 ﻿namespace MultiplayerConsolePong.Models
 {
+    using MultiplayerConsolePong.Common;
     using System;
 
     public class Ball

@@ -1,5 +1,6 @@
 ﻿namespace MultiplayerConsolePong.Games
 {
+    using MultiplayerConsolePong.Common;
     using MultiplayerConsolePong.Models;
 
     public class TwoPlayerPongGame : PongGame

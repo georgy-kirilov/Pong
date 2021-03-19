@@ -1,6 +1,7 @@
 ﻿namespace MultiplayerConsolePong.Menus
 {
     using System;
+    using MultiplayerConsolePong.Common;
 
     public abstract class Menu<T> : IMenu<T> where T : struct, IConvertible
     {

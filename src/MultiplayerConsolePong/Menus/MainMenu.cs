@@ -1,5 +1,6 @@
 ﻿namespace MultiplayerConsolePong.Menus
 {
+    using MultiplayerConsolePong.Common;
     using MultiplayerConsolePong.Enums;
 
     public class MainMenu : Menu<MainMenuOption>

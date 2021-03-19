@@ -1,4 +1,4 @@
-﻿namespace MultiplayerConsolePong
+﻿namespace MultiplayerConsolePong.Common
 {
     using System;
     using System.Runtime.InteropServices;
