@@ -1,4 +1,4 @@
-﻿namespace MultiplayerConsolePong
+﻿namespace MultiplayerConsolePong.Models
 {
     using System;
 

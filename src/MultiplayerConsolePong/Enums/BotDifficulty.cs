@@ -1,4 +1,4 @@
-﻿namespace MultiplayerConsolePong
+﻿namespace MultiplayerConsolePong.Enums
 {
     public enum BotDifficulty
     {

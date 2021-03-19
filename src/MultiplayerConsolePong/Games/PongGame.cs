@@ -1,11 +1,14 @@
-﻿namespace MultiplayerConsolePong
+﻿namespace MultiplayerConsolePong.Games
 {
     using System;
     using System.Threading;
+    using MultiplayerConsolePong.Models;
 
     public abstract class PongGame : IPongGame
     {
-        public PongGame(Paddle leftPaddle, Paddle rightPaddle, Ball ball,
+        public PongGame(Paddle leftPaddle,
+                        Paddle rightPaddle, 
+                        Ball ball,
                         int roundsToWinCount = GlobalConstants.Gameplay.RoundsToWinCount,
                         int framesPerSecond = GlobalConstants.Gameplay.FramesPerSecond)
         {

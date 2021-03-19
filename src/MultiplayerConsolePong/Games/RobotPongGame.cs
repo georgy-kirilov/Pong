@@ -1,19 +1,22 @@
-﻿namespace MultiplayerConsolePong
+﻿namespace MultiplayerConsolePong.Games
 {
     using System;
+    using MultiplayerConsolePong.Enums;
+    using MultiplayerConsolePong.Models;
 
-    public class BotPongGame : PongGame
+    public class RobotPongGame : PongGame
     {
         private readonly Random random = new Random();
 
-        public BotPongGame(
+        public RobotPongGame(
                 Paddle leftPaddle, 
                 Paddle rightPaddle, 
                 Ball ball, 
                 BotDifficulty difficulty = BotDifficulty.Intermediate,
                 bool isBotWithLeftPaddle = true,
                 int roundsToWinCount = GlobalConstants.Gameplay.RoundsToWinCount,
-                int framesPerSecond = GlobalConstants.Gameplay.FramesPerSecond) 
+                int framesPerSecond = GlobalConstants.Gameplay.FramesPerSecond)
+
             : base(leftPaddle, rightPaddle, ball, roundsToWinCount, framesPerSecond)
         {
             switch (difficulty)

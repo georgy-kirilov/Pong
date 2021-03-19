@@ -1,6 +1,9 @@
-﻿namespace MultiplayerConsolePong
+﻿namespace MultiplayerConsolePong.Core
 {
     using System;
+    using MultiplayerConsolePong.Enums;
+    using MultiplayerConsolePong.Games;
+    using MultiplayerConsolePong.Models;
 
     public static class Engine
     {
@@ -34,7 +37,7 @@
                 {
                     BotDifficulty difficulty = BotDifficultyMenu();
                     bool isBotWithLeftPaddle = PaddleSideMenu() != PaddleSide.Left;
-                    var game = new BotPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball(), difficulty, isBotWithLeftPaddle);
+                    var game = new RobotPongGame(NewLeftPaddle(), NewRightPaddle(), new Ball(), difficulty, isBotWithLeftPaddle);
                     game.Start();
                 }
                 else if (menuItem == MainMenuOption.Exit)
