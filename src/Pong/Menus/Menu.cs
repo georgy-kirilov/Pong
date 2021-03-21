@@ -64,8 +64,16 @@
 
             foreach (string option in this.Options)
             {
-                var color = index == this.selectedOptionIndex ? ConsoleColor.Green : ConsoleColor.DarkYellow;
-                ConsoleManager.WriteAt(x - option.Length / 2, y, option, null, color);
+                ConsoleColor color = ConsoleColor.DarkYellow;
+                string optionToPrint = option;
+
+                if (index == this.selectedOptionIndex)
+                {
+                    color = ConsoleColor.Green;
+                    optionToPrint = $"> {optionToPrint} <";
+                }
+
+                ConsoleManager.WriteAt(x - optionToPrint.Length / 2, y, optionToPrint, null, color);
                 y += 2;
                 index++;
             }
